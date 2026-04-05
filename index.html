@@ -1,0 +1,1807 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduLearn Platform - Student Teaching System</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f9fafb;
+            color: #333;
+        }
+
+        /* Navbar */
+        .navbar {
+            background: linear-gradient(135deg, #2563eb, #1d4ed8);
+            color: white;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .navbar-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar-brand {
+            font-size: 1.5rem;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .navbar-menu {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            cursor: pointer;
+            transition: color 0.3s;
+            font-weight: 500;
+        }
+
+        .nav-link:hover {
+            color: #93c5fd;
+        }
+
+        .btn {
+            padding: 0.6rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            font-size: 0.95rem;
+        }
+
+        .btn-primary {
+            background-color: white;
+            color: #2563eb;
+        }
+
+        .btn-primary:hover {
+            background-color: #f3f4f6;
+        }
+
+        .btn-secondary {
+            background-color: #1e40af;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background-color: #1e3a8a;
+        }
+
+        .btn-danger {
+            background-color: #ef4444;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background-color: #dc2626;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #2563eb, #7c3aed);
+            color: white;
+            text-align: center;
+            padding: 5rem 2rem;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+        }
+
+        /* Grid Layout */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        /* Card */
+        .card {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+        }
+
+        .card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #1f2937;
+        }
+
+        .card p {
+            color: #6b7280;
+            margin-bottom: 0.5rem;
+        }
+
+        .card .btn {
+            width: 100%;
+            margin-top: 1rem;
+            background-color: #2563eb;
+            color: white;
+        }
+
+        .card .btn:hover {
+            background-color: #1d4ed8;
+        }
+
+        /* Auth Forms */
+        .auth-container {
+            min-height: 80vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .auth-box {
+            background: white;
+            padding: 3rem;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 450px;
+        }
+
+        .auth-box h2 {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: #1f2937;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #374151;
+            font-weight: 500;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #2563eb;
+        }
+
+        /* Page Sections */
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        .page-title {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            color: #1f2937;
+        }
+
+        /* Dashboard Cards */
+        .dashboard-card {
+            background: linear-gradient(135deg, #2563eb, #1d4ed8);
+            color: white;
+            padding: 2rem;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .dashboard-card:hover {
+            transform: scale(1.05);
+        }
+
+        .dashboard-card.green {
+            background: linear-gradient(135deg, #10b981, #059669);
+        }
+
+        .dashboard-card.purple {
+            background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+        }
+
+        .dashboard-card h3 {
+            font-size: 1.5rem;
+            margin-top: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* List Items */
+        .list-item {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            border-left: 4px solid #2563eb;
+        }
+
+        .list-item h3 {
+            color: #1f2937;
+            margin-bottom: 0.5rem;
+        }
+
+        .list-item p {
+            color: #6b7280;
+            margin-bottom: 0.3rem;
+        }
+
+        /* Timer */
+        .timer {
+            background-color: #ef4444;
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            display: inline-block;
+        }
+
+        /* Test Question */
+        .question {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+        }
+
+        .option {
+            padding: 1rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            margin-bottom: 0.8rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .option:hover {
+            background-color: #f3f4f6;
+            border-color: #2563eb;
+        }
+
+        /* Welcome Box */
+        .welcome-box {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+
+        .welcome-box h1 {
+            color: #1f2937;
+            margin-bottom: 0.5rem;
+        }
+
+        .welcome-box p {
+            color: #6b7280;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .navbar-menu {
+                flex-wrap: wrap;
+                gap: 1rem;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .page-title {
+                font-size: 2rem;
+            }
+
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Hidden class */
+        .hidden {
+            display: none !important;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .mt-4 {
+            margin-top: 1rem;
+        }
+
+        .mb-4 {
+            margin-bottom: 1rem;
+        }
+
+        .flex-between {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .btn-block {
+            width: 100%;
+        }
+
+        .btn-success {
+            background-color: #10b981;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background-color: #059669;
+        }
+
+        .icon {
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            margin-bottom: 1rem;
+        }
+
+        /* Page Header with Back Button */
+        .page-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .back-btn {
+            background-color: #6b7280;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-size: 0.9rem;
+        }
+
+        .back-btn:hover {
+            background-color: #4b5563;
+        }
+
+        /* Live Lecture Badge */
+        .live-badge {
+            display: inline-block;
+            background-color: #ef4444;
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin-left: 0.5rem;
+            animation: blink 1.5s infinite;
+        }
+
+        @keyframes blink {
+            0%, 50%, 100% { opacity: 1; }
+            25%, 75% { opacity: 0.7; }
+        }
+
+        /* Lecture Card */
+        .lecture-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            border-left: 4px solid #2563eb;
+        }
+
+        .lecture-card.live {
+            border-left-color: #ef4444;
+            background: #fef2f2;
+        }
+
+        .lecture-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 1rem;
+        }
+
+        .lecture-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #1f2937;
+            margin: 0;
+        }
+
+        .lecture-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+            font-size: 0.9rem;
+        }
+
+        .lecture-info-item {
+            color: #6b7280;
+        }
+
+        .lecture-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid #e5e7eb;
+        }
+
+        .tab {
+            padding: 0.8rem 1.5rem;
+            cursor: pointer;
+            border: none;
+            background: none;
+            font-size: 1rem;
+            font-weight: 500;
+            color: #6b7280;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .tab.active {
+            color: #2563eb;
+            border-bottom-color: #2563eb;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <div class="navbar-brand" onclick="showPage('home')">
+                📚 EduLearn Platform
+            </div>
+            <div class="navbar-menu">
+                <a class="nav-link" onclick="showPage('home')">Home</a>
+                <a class="nav-link" onclick="showPage('batches')">Batches</a>
+                <a class="nav-link dashboard-link hidden" onclick="showPage('dashboard')">Dashboard</a>
+                <a class="nav-link" onclick="showPage('contact')">Contact</a>
+                <button class="btn btn-primary login-btn" onclick="showPage('login')">Login</button>
+                <button class="btn btn-secondary register-btn" onclick="showPage('register')">Register</button>
+                <button class="btn btn-danger logout-btn hidden" onclick="logout()">Logout</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Home Page -->
+    <div id="home" class="page active">
+        <div class="hero">
+            <h1>Welcome to EduLearn Platform</h1>
+            <p>Your gateway to success in competitive exams</p>
+            <button class="btn btn-primary" onclick="showPage('batches')">Explore Batches</button>
+        </div>
+        <div class="container">
+            <h2 class="text-center mb-4" style="margin-top: 3rem;">Featured Batches</h2>
+            <div class="grid" id="homeBatches"></div>
+        </div>
+    </div>
+
+    <!-- Login Page -->
+    <div id="login" class="page">
+        <div class="auth-container">
+            <div class="auth-box">
+                <h2>Login</h2>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="loginEmail" placeholder="Enter your email">
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="loginPassword" placeholder="Enter your password">
+                </div>
+                <button class="btn btn-primary btn-block" onclick="handleLogin()">Login</button>
+                <p class="text-center mt-4">
+                    Don't have an account? 
+                    <a href="#" style="color: #2563eb;" onclick="showPage('register')">Register</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Register Page -->
+    <div id="register" class="page">
+        <div class="auth-container">
+            <div class="auth-box">
+                <h2>Register</h2>
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" id="registerName" placeholder="Enter your name">
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="registerEmail" placeholder="Enter your email">
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="registerPassword" placeholder="Enter your password">
+                </div>
+                <button class="btn btn-primary btn-block" onclick="handleRegister()">Register</button>
+                <p class="text-center mt-4">
+                    Already have an account? 
+                    <a href="#" style="color: #2563eb;" onclick="showPage('login')">Login</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dashboard Page -->
+    <div id="dashboard" class="page">
+        <div class="container">
+            <div class="welcome-box">
+                <h1>Welcome, <span id="userName"></span>!</h1>
+                <p id="userEmail"></p>
+            </div>
+            
+            <div style="margin-top: 2rem;">
+                <h2 class="mb-4">📚 Your Enrolled Courses</h2>
+                <div id="enrolledBatches"></div>
+            </div>
+
+            <div style="margin-top: 3rem;">
+                <h2 class="mb-4">Quick Stats</h2>
+                <div class="grid">
+                    <div class="dashboard-card" style="background: linear-gradient(135deg, #3b82f6, #2563eb);">
+                        <div class="icon">📊</div>
+                        <h3 id="totalCoursesCount">0</h3>
+                        <p>Courses Enrolled</p>
+                    </div>
+                    <div class="dashboard-card green">
+                        <div class="icon">🏆</div>
+                        <h3 id="completedCoursesCount">0</h3>
+                        <p>Courses Completed</p>
+                    </div>
+                    <div class="dashboard-card purple">
+                        <div class="icon">⏱️</div>
+                        <h3 id="inProgressCount">0</h3>
+                        <p>In Progress</p>
+                    </div>
+                    <div class="dashboard-card" style="background: linear-gradient(135deg, #f59e0b, #d97706);">
+                        <div class="icon">🎯</div>
+                        <h3 id="avgProgressPercent">0%</h3>
+                        <p>Average Progress</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Batches Page -->
+    <div id="batches" class="page">
+        <div class="container">
+            <h1 class="page-title">All Batches</h1>
+            <div class="grid" id="batchesList"></div>
+        </div>
+    </div>
+
+    <!-- Notes Page -->
+    <div id="notes" class="page">
+        <div class="container">
+            <div class="page-header">
+                <button class="btn back-btn" onclick="goBack()">← Back</button>
+                <h1 class="page-title" style="margin: 0;">Study Notes</h1>
+            </div>
+            <div id="notesList"></div>
+        </div>
+    </div>
+
+    <!-- DPP Page -->
+    <div id="dpp" class="page">
+        <div class="container">
+            <div class="page-header">
+                <button class="btn back-btn" onclick="goBack()">← Back</button>
+                <h1 class="page-title" style="margin: 0;">Daily Practice Problems</h1>
+            </div>
+            <div id="dppList"></div>
+        </div>
+    </div>
+
+    <!-- Lectures Page -->
+    <div id="lectures" class="page">
+        <div class="container">
+            <div class="page-header">
+                <button class="btn back-btn" onclick="goBack()">← Back</button>
+                <h1 class="page-title" style="margin: 0;">Lectures</h1>
+            </div>
+            <div class="tabs">
+                <button class="tab active" onclick="switchLectureTab('live')">🔴 Live Lectures</button>
+                <button class="tab" onclick="switchLectureTab('recorded')">📹 Recorded Lectures</button>
+            </div>
+            <div id="liveLectures" class="tab-content active"></div>
+            <div id="recordedLectures" class="tab-content"></div>
+        </div>
+    </div>
+
+    <!-- Test Page -->
+    <div id="test" class="page">
+        <div class="container">
+            <div class="page-header">
+                <button class="btn back-btn" onclick="goBack()">← Back</button>
+                <h1 class="page-title" style="margin: 0;">Mock Tests</h1>
+            </div>
+            <div id="testContainer">
+                <div id="testList"></div>
+                <div id="testInterface" class="hidden">
+                    <div class="flex-between mb-4">
+                        <h2>Test in Progress</h2>
+                        <div class="timer" id="timer">30:00</div>
+                    </div>
+                    <div class="question">
+                        <p style="font-size: 1.2rem; font-weight: 600; margin-bottom: 1rem;">Question 1 of 30</p>
+                        <p style="margin-bottom: 1.5rem;">What is the derivative of x²?</p>
+                        <div class="option">
+                            <input type="radio" name="q1" id="opt1">
+                            <label for="opt1" style="margin-left: 0.5rem; cursor: pointer;">2x</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q1" id="opt2">
+                            <label for="opt2" style="margin-left: 0.5rem; cursor: pointer;">x</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q1" id="opt3">
+                            <label for="opt3" style="margin-left: 0.5rem; cursor: pointer;">2</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q1" id="opt4">
+                            <label for="opt4" style="margin-left: 0.5rem; cursor: pointer;">x²</label>
+                        </div>
+                    </div>
+                    <button class="btn btn-success" onclick="submitTest()">Submit Test</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Course Details Page -->
+    <div id="courseDetails" class="page">
+        <div class="container">
+            <div class="page-header">
+                <button class="btn back-btn" onclick="goBack()">← Back</button>
+                <h1 class="page-title" style="margin: 0;" id="courseTitle"></h1>
+            </div>
+
+            <!-- Course Progress -->
+            <div style="background: white; padding: 2rem; border-radius: 8px; margin-bottom: 2rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                    <h3>Course Progress</h3>
+                    <span id="progressPercent" style="font-weight: bold; color: #2563eb;">0%</span>
+                </div>
+                <div style="width: 100%; height: 20px; background: #e5e7eb; border-radius: 10px; overflow: hidden;">
+                    <div id="progressBar" style="width: 0%; height: 100%; background: linear-gradient(90deg, #10b981, #059669); transition: width 0.3s;"></div>
+                </div>
+            </div>
+
+            <!-- Tabs -->
+            <div class="tabs">
+                <button class="tab active" onclick="switchCourseTab('liveLectures')">🔴 Live Lectures</button>
+                <button class="tab" onclick="switchCourseTab('recordedLectures')">📹 Recorded</button>
+                <button class="tab" onclick="switchCourseTab('notes')">📝 Notes</button>
+                <button class="tab" onclick="switchCourseTab('tests')">🏆 Tests</button>
+                <button class="tab" onclick="switchCourseTab('certificate')">📜 Certificate</button>
+            </div>
+
+            <!-- Live Lectures Tab -->
+            <div id="courseLiveLectures" class="tab-content active"></div>
+
+            <!-- Recorded Lectures Tab -->
+            <div id="courseRecordedLectures" class="tab-content"></div>
+
+            <!-- Notes Tab -->
+            <div id="courseNotes" class="tab-content"></div>
+
+            <!-- Tests Tab -->
+            <div id="courseTests" class="tab-content"></div>
+
+            <!-- Certificate Tab -->
+            <div id="courseCertificate" class="tab-content"></div>
+        </div>
+    </div>
+
+    <!-- Contact Page -->
+    <div id="contact" class="page">
+        <div class="container">
+            <h1 class="page-title text-center">Contact Us</h1>
+            <div class="auth-box" style="margin: 0 auto;">
+                <div class="form-group">
+                    <label>Name</label>
+                    <input type="text" placeholder="Your name">
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" placeholder="Your email">
+                </div>
+                <div class="form-group">
+                    <label>Message</label>
+                    <textarea style="width: 100%; padding: 0.8rem; border: 2px solid #e5e7eb; border-radius: 8px; font-size: 1rem; font-family: inherit;" rows="5" placeholder="Your message"></textarea>
+                </div>
+                <button class="btn btn-primary btn-block" onclick="alert('Message sent successfully!')">Send Message</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sample Data
+        const batches = [
+            { id: 1, name: 'Python Programming', category: 'Languages', teacher: 'Dr. Rajesh Kumar', duration: '8 weeks', students: 150, description: 'Complete Python programming course for beginners to advanced', progress: 60, completed: false },
+            { id: 2, name: 'JavaScript & Web Development', category: 'Languages', teacher: 'Dr. Priya Sharma', duration: '10 weeks', students: 200, description: 'Master JavaScript and build modern web applications', progress: 0, completed: false },
+            { id: 3, name: 'Data Structures & Algorithms', category: 'Data Structure', teacher: 'Prof. Amit Singh', duration: '12 weeks', students: 120, description: 'Learn essential data structures and problem-solving algorithms', progress: 0, completed: false },
+            { id: 4, name: 'Data Analytics with SQL', category: 'Data Analytics', teacher: 'Mrs. Sneha Patel', duration: '6 weeks', students: 180, description: 'Master SQL and data analysis techniques', progress: 100, completed: true },
+            { id: 5, name: 'Data Science Fundamentals', category: 'Data Science', teacher: 'Dr. Vikram Singh', duration: '10 weeks', students: 140, description: 'Introduction to data science, machine learning and statistical analysis', progress: 0, completed: false },
+            { id: 6, name: 'Advanced Java Programming', category: 'Languages', teacher: 'Prof. Ravi Kumar', duration: '9 weeks', students: 95, description: 'Object-oriented programming with Java and design patterns', progress: 0, completed: false }
+        ];
+
+        // Course-specific materials
+        const courseMaterials = {
+            1: {
+                liveLectures: [
+                    { id: 101, title: 'Python Basics - Variables & Data Types', instructor: 'Dr. Rajesh Kumar', date: '2025-02-05', startTime: '2:00 PM', duration: '1.5 hours', students: 87 },
+                    { id: 102, title: 'Functions & Modules', instructor: 'Dr. Rajesh Kumar', date: '2025-02-06', startTime: '3:00 PM', duration: '2 hours', students: 92 }
+                ],
+                recordedLectures: [
+                    { id: 201, title: 'Introduction to Python', instructor: 'Dr. Rajesh Kumar', uploadDate: '2025-01-28', duration: '45 minutes', views: 324 },
+                    { id: 202, title: 'Data Types & Variables', instructor: 'Dr. Rajesh Kumar', uploadDate: '2025-01-29', duration: '52 minutes', views: 412 },
+                    { id: 203, title: 'Control Flow Statements', instructor: 'Dr. Rajesh Kumar', uploadDate: '2025-01-30', duration: '58 minutes', views: 289 }
+                ],
+                notes: [
+                    { id: 301, topic: 'Python Syntax Cheat Sheet', uploadDate: '2025-01-28' },
+                    { id: 302, topic: 'Data Types & Operators', uploadDate: '2025-01-29' },
+                    { id: 303, topic: 'Functions & Scope', uploadDate: '2025-01-31' }
+                ],
+                tests: [
+                    { id: 401, title: 'Python Basics Quiz', questions: 20, duration: 30, passingScore: 70 },
+                    { id: 402, title: 'Mid-term Assessment', questions: 50, duration: 90, passingScore: 60 },
+                    { id: 403, title: 'Final Exam', questions: 100, duration: 180, passingScore: 70 }
+                ]
+            },
+            2: {
+                liveLectures: [
+                    { id: 104, title: 'JavaScript Fundamentals', instructor: 'Dr. Priya Sharma', date: '2025-02-07', startTime: '4:00 PM', duration: '2 hours', students: 120 }
+                ],
+                recordedLectures: [
+                    { id: 204, title: 'Getting Started with JavaScript', instructor: 'Dr. Priya Sharma', uploadDate: '2025-02-01', duration: '60 minutes', views: 198 }
+                ],
+                notes: [
+                    { id: 304, topic: 'JavaScript Basics', uploadDate: '2025-02-01' }
+                ],
+                tests: [
+                    { id: 404, title: 'JavaScript Quiz', questions: 25, duration: 45, passingScore: 70 }
+                ]
+            },
+            3: {
+                liveLectures: [
+                    { id: 105, title: 'Arrays & Linked Lists', instructor: 'Prof. Amit Singh', date: '2025-02-08', startTime: '5:00 PM', duration: '2 hours', students: 98 }
+                ],
+                recordedLectures: [
+                    { id: 205, title: 'Introduction to DSA', instructor: 'Prof. Amit Singh', uploadDate: '2025-02-02', duration: '70 minutes', views: 256 }
+                ],
+                notes: [
+                    { id: 305, topic: 'Data Structures Overview', uploadDate: '2025-02-02' }
+                ],
+                tests: [
+                    { id: 405, title: 'DSA Fundamentals', questions: 30, duration: 60, passingScore: 65 }
+                ]
+            },
+            4: {
+                liveLectures: [],
+                recordedLectures: [
+                    { id: 206, title: 'SQL Basics', instructor: 'Mrs. Sneha Patel', uploadDate: '2025-01-15', duration: '80 minutes', views: 542 },
+                    { id: 207, title: 'Advanced SQL Queries', instructor: 'Mrs. Sneha Patel', uploadDate: '2025-01-20', duration: '95 minutes', views: 487 }
+                ],
+                notes: [
+                    { id: 306, topic: 'SQL Reference Guide', uploadDate: '2025-01-15' },
+                    { id: 307, topic: 'Database Design Patterns', uploadDate: '2025-01-18' }
+                ],
+                tests: [
+                    { id: 406, title: 'SQL Proficiency Test', questions: 40, duration: 75, passingScore: 70, attempts: 2 }
+                ]
+            },
+            5: {
+                liveLectures: [
+                    { id: 106, title: 'Data Science Introduction', instructor: 'Dr. Vikram Singh', date: '2025-02-09', startTime: '6:00 PM', duration: '1.5 hours', students: 110 }
+                ],
+                recordedLectures: [
+                    { id: 208, title: 'Data Science Basics', instructor: 'Dr. Vikram Singh', uploadDate: '2025-02-01', duration: '65 minutes', views: 178 }
+                ],
+                notes: [
+                    { id: 308, topic: 'Data Science Workflow', uploadDate: '2025-02-01' }
+                ],
+                tests: [
+                    { id: 407, title: 'DS Fundamentals', questions: 35, duration: 60, passingScore: 70 }
+                ]
+            },
+            6: {
+                liveLectures: [
+                    { id: 107, title: 'OOP Concepts in Java', instructor: 'Prof. Ravi Kumar', date: '2025-02-10', startTime: '3:30 PM', duration: '2 hours', students: 75 }
+                ],
+                recordedLectures: [
+                    { id: 209, title: 'Java Fundamentals', instructor: 'Prof. Ravi Kumar', uploadDate: '2025-02-03', duration: '75 minutes', views: 203 }
+                ],
+                notes: [
+                    { id: 309, topic: 'OOP Principles', uploadDate: '2025-02-03' }
+                ],
+                tests: [
+                    { id: 408, title: 'Java Basics', questions: 45, duration: 75, passingScore: 70 }
+                ]
+            }
+        };
+
+        const notes = [
+            { id: 1, topic: 'Organic Chemistry - Basics', subject: 'Chemistry', date: '2025-01-15' },
+            { id: 2, topic: "Newton's Laws of Motion", subject: 'Physics', date: '2025-01-14' },
+            { id: 3, topic: 'Calculus - Differentiation', subject: 'Mathematics', date: '2025-01-13' },
+            { id: 4, topic: 'Cell Biology', subject: 'Biology', date: '2025-01-12' }
+        ];
+
+        const dpps = [
+            { id: 1, title: 'DPP #45 - Thermodynamics', questions: 20, subject: 'Physics', deadline: '2025-01-25' },
+            { id: 2, title: 'DPP #32 - Algebra', questions: 25, subject: 'Mathematics', deadline: '2025-01-24' },
+            { id: 3, title: 'DPP #28 - Organic Reactions', questions: 15, subject: 'Chemistry', deadline: '2025-01-26' }
+        ];
+
+        const tests = [
+            { id: 1, title: 'Full Length Test #12', duration: 180, questions: 90, subject: 'All Subjects' },
+            { id: 2, title: 'Physics Chapter Test', duration: 60, questions: 30, subject: 'Physics' },
+            { id: 3, title: 'Mock Test - JEE Main', duration: 180, questions: 75, subject: 'All Subjects' }
+        ];
+
+        const liveLectures = [
+            { id: 1, title: 'Thermodynamics - Part 1', instructor: 'Dr. Rajesh Kumar', subject: 'Physics', startTime: '2:00 PM', duration: '1 hour', students: 145 },
+            { id: 2, title: 'Organic Chemistry - Reactions', instructor: 'Dr. Priya Sharma', subject: 'Chemistry', startTime: '3:30 PM', duration: '1.5 hours', students: 98 },
+            { id: 3, title: 'Integration & Differentiation', instructor: 'Prof. Amit Singh', subject: 'Mathematics', startTime: '5:00 PM', duration: '1 hour', students: 167 }
+        ];
+
+        const recordedLectures = [
+            { id: 1, title: 'Atomic Structure Basics', instructor: 'Dr. Priya Sharma', subject: 'Chemistry', uploadDate: '2025-01-18', duration: '52 minutes', views: 324 },
+            { id: 2, title: 'Motion & Forces Explained', instructor: 'Dr. Rajesh Kumar', subject: 'Physics', uploadDate: '2025-01-17', duration: '58 minutes', views: 412 },
+            { id: 3, title: 'Quadratic Equations Deep Dive', instructor: 'Prof. Amit Singh', subject: 'Mathematics', uploadDate: '2025-01-16', duration: '65 minutes', views: 289 },
+            { id: 4, title: 'Photosynthesis & Respiration', instructor: 'Mrs. Sneha Patel', subject: 'Biology', uploadDate: '2025-01-15', duration: '48 minutes', views: 198 }
+        ];
+
+        // Timer variables
+        let timerInterval;
+        let timeLeft = 1800;
+        let previousPage = 'dashboard';
+
+        // Check login status on page load
+        window.onload = function() {
+            try {
+                console.log('Page loading...');
+                console.log('Batches data:', batches);
+                checkAuth();
+                renderHomeBatches();
+                renderBatches();
+                renderNotes();
+                renderDPP();
+                renderTests();
+                renderEnrolledBatches();
+                renderLectures();
+                console.log('All functions rendered successfully');
+            } catch(error) {
+                console.error('Error during page load:', error);
+                alert('Error loading page: ' + error.message);
+            }
+        };
+
+        function checkAuth() {
+            const token = localStorage.getItem('token');
+            const user = localStorage.getItem('user');
+
+            if (token && user) {
+                const userData = JSON.parse(user);
+                document.getElementById('userName').textContent = userData.name;
+                document.getElementById('userEmail').textContent = userData.email;
+                
+                // Update navbar
+                document.querySelector('.login-btn').classList.add('hidden');
+                document.querySelector('.register-btn').classList.add('hidden');
+                document.querySelector('.logout-btn').classList.remove('hidden');
+                document.querySelector('.dashboard-link').classList.remove('hidden');
+                
+                // Update dashboard stats
+                updateDashboardStats();
+                // Sync enrolled courses from backend
+                fetchUserEnrollments(userData.id);
+            }
+        }
+
+        function fetchUserEnrollments(userId) {
+            try {
+                fetch(`http://localhost:5000/api/batches/enrolled/${userId}`)
+                .then(res => res.json())
+                .then(data => {
+                    if (data && data.enrolledBatches) {
+                        // ensure stored as strings/numbers consistent with frontend batches
+                        const ids = data.enrolledBatches.map(id => String(id));
+                        localStorage.setItem('enrolledCourses', JSON.stringify(ids));
+                        renderEnrolledBatches();
+                        renderBatches();
+                        updateDashboardStats();
+                    }
+                })
+                .catch(err => {
+                    console.warn('Could not fetch enrolled batches from backend:', err);
+                });
+            } catch (err) {
+                console.error('fetchUserEnrollments error:', err);
+            }
+        }
+
+        function updateDashboardStats() {
+            const enrolledIds = getEnrolledCourseIds();
+            const enrolledCourses = batches.filter(b => enrolledIds.includes(b.id));
+            
+            const completedCourses = enrolledCourses.filter(c => c.completed).length;
+            const inProgressCourses = enrolledCourses.filter(c => !c.completed).length;
+            
+            const avgProgress = enrolledCourses.length > 0 
+                ? Math.round(enrolledCourses.reduce((sum, c) => sum + (c.progress || 0), 0) / enrolledCourses.length)
+                : 0;
+            
+            document.getElementById('totalCoursesCount').textContent = enrolledCourses.length;
+            document.getElementById('completedCoursesCount').textContent = completedCourses;
+            document.getElementById('inProgressCount').textContent = inProgressCourses;
+            document.getElementById('avgProgressPercent').textContent = avgProgress + '%';
+        }
+
+        function showPage(pageId) {
+            // Hide all pages
+            const pages = document.querySelectorAll('.page');
+            pages.forEach(page => page.classList.remove('active'));
+
+            // Track previous page for back button
+            previousPage = pageId;
+
+            // Show selected page
+            document.getElementById(pageId).classList.add('active');
+            
+            // Re-render content when showing pages
+            if (pageId === 'dashboard') {
+                updateDashboardStats();
+                renderEnrolledBatches();
+            } else if (pageId === 'batches') {
+                renderBatches();
+            } else if (pageId === 'home') {
+                renderHomeBatches();
+            }
+        }
+
+        function goBack() {
+            showPage('dashboard');
+        }
+
+        function requireAuth(pageId) {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                alert('Please login to access this feature');
+                showPage('login');
+                return;
+            }
+            showPage(pageId);
+        }
+
+        function handleLogin() {
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+
+            if (!email || !password) {
+                alert('Please fill in all fields');
+                return;
+            }
+
+            try {
+                // Demo login - works without backend
+                // For production, connect to your backend API
+                if (email && password) {
+                    // Store demo user data
+                    localStorage.setItem('token', 'demo-token-' + Date.now());
+                    localStorage.setItem('user', JSON.stringify({
+                        id: '1',
+                        name: email.split('@')[0],
+                        email: email
+                    }));
+                    
+                    // Clear form
+                    document.getElementById('loginEmail').value = '';
+                    document.getElementById('loginPassword').value = '';
+                    
+                    // Update UI and navigate
+                    checkAuth();
+                    updateDashboardStats();
+                    showPage('dashboard');
+                    alert('Login successful!');
+                } else {
+                    alert('Login failed');
+                }
+            } catch(error) {
+                console.error('Login error:', error);
+                alert('Error during login: ' + error.message);
+            }
+        }
+
+        function handleRegister() {
+            const name = document.getElementById('registerName').value;
+            const email = document.getElementById('registerEmail').value;
+            const password = document.getElementById('registerPassword').value;
+
+            if (!name || !email || !password) {
+                alert('Please fill in all fields');
+                return;
+            }
+
+            // Call backend API
+            fetch('http://localhost:5000/api/auth/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ name, email, password })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.token) {
+                    // Store token and user data
+                    localStorage.setItem('token', data.token);
+                    localStorage.setItem('user', JSON.stringify(data.user));
+                    
+                    // Clear form
+                    document.getElementById('registerName').value = '';
+                    document.getElementById('registerEmail').value = '';
+                    document.getElementById('registerPassword').value = '';
+                    
+                    // Update UI and navigate
+                    checkAuth();
+                    showPage('dashboard');
+                    alert('Registration successful!');
+                } else {
+                    alert(data.message || 'Registration failed');
+                }
+            })
+            .catch(err => {
+                console.error(err);
+                alert('Server error. Please try again later.');
+            });
+        }
+
+        function logout() {
+            localStorage.removeItem('token');
+            localStorage.removeItem('user');
+            document.querySelector('.login-btn').classList.remove('hidden');
+            document.querySelector('.register-btn').classList.remove('hidden');
+            document.querySelector('.logout-btn').classList.add('hidden');
+            document.querySelector('.dashboard-link').classList.add('hidden');
+            showPage('home');
+        }
+
+        function renderHomeBatches() {
+            try {
+                const container = document.getElementById('homeBatches');
+                if (!container) {
+                    console.warn('homeBatches container not found');
+                    return;
+                }
+                container.innerHTML = batches.map(batch => `
+                    <div class="card">
+                        <h3>${batch.name}</h3>
+                        <p>Teacher: ${batch.teacher}</p>
+                        <p>Duration: ${batch.duration}</p>
+                        <button class="btn" onclick="requireAuth('batches')">Enroll Now</button>
+                    </div>
+                `).join('');
+            } catch(error) {
+                console.error('Error rendering home batches:', error);
+            }
+        }
+
+        function renderBatches() {
+            try {
+                const container = document.getElementById('batchesList');
+                console.log('Rendering batches, container:', container);
+                console.log('Batches data:', batches);
+                
+                if (!container) {
+                    console.warn('batchesList container not found');
+                    return;
+                }
+                const enrolledIds = getEnrolledCourseIds();
+                console.log('Enrolled IDs:', enrolledIds);
+                
+                const html = batches.map(batch => {
+                    const isEnrolled = enrolledIds.includes(batch.id);
+                    const safeName = batch.name.replace(/'/g, "\\'");
+                    return `
+                    <div class="card">
+                        <span style="display: inline-block; background: #2563eb; color: white; padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.8rem; margin-bottom: 0.5rem;">${batch.category}</span>
+                        <h3>${batch.name}</h3>
+                        <p>👨‍🏫 Teacher: ${batch.teacher}</p>
+                    <p>⏱️ Duration: ${batch.duration}</p>
+                        <p>👥 Students: ${batch.students}</p>
+                        ${isEnrolled ? `<p style="color: #10b981; font-weight: 600; margin-top: 0.5rem;">✓ Enrolled</p>` : ''}
+                        <p style="margin-top: 1rem;">${batch.description}</p>
+                        ${isEnrolled 
+                            ? `<button class="btn btn-primary" style="margin-top: 1rem; width: 100%;" onclick="openCourse(${batch.id})">Open Course 📚</button>` 
+                            : `<button class="btn btn-success" style="margin-top: 1rem; width: 100%;" onclick="enrollCourse(${batch.id}, '${safeName}')">Enroll Now</button>`
+                        }
+                    </div>
+                `;
+                }).join('');
+                
+                console.log('HTML to insert:', html);
+                container.innerHTML = html;
+                console.log('Batches rendered successfully');
+            } catch(error) {
+                console.error('Error rendering batches:', error);
+            }
+        }
+
+        function renderNotes() {
+            try {
+                const container = document.getElementById('notesList');
+                if (!container) {
+                    console.warn('notesList container not found');
+                    return;
+                }
+                container.innerHTML = notes.map(note => `
+                <div class="list-item">
+                    <div style="display: flex; justify-content: space-between; align-items: start;">
+                        <div>
+                            <h3>${note.topic}</h3>
+                            <p>Subject: ${note.subject}</p>
+                            <p style="font-size: 0.9rem; color: #9ca3af;">Uploaded: ${note.date}</p>
+                        </div>
+                        <button class="btn btn-primary">Download PDF</button>
+                    </div>
+                </div>
+            `).join('');
+            } catch(error) {
+                console.error('Error rendering notes:', error);
+            }
+        }
+
+        function renderDPP() {
+            try {
+                const container = document.getElementById('dppList');
+                if (!container) {
+                    console.warn('dppList container not found');
+                    return;
+                }
+                container.innerHTML = dpps.map(dpp => `
+                <div class="list-item">
+                    <h3>${dpp.title}</h3>
+                    <p>Subject: ${dpp.subject}</p>
+                    <p>Questions: ${dpp.questions}</p>
+                    <p>Deadline: ${dpp.deadline}</p>
+                    <button class="btn btn-success" style="margin-top: 1rem;">Start Practice</button>
+                </div>
+            `).join('');
+            } catch(error) {
+                console.error('Error rendering DPP:', error);
+            }
+        }
+
+        function renderTests() {
+            try {
+                const container = document.getElementById('testList');
+                if (!container) {
+                    console.warn('testList container not found');
+                    return;
+                }
+                container.innerHTML = tests.map(test => `
+                <div class="list-item">
+                    <h3>${test.title}</h3>
+                    <p>Subject: ${test.subject}</p>
+                    <p>Duration: ${test.duration} minutes</p>
+                    <p>Questions: ${test.questions}</p>
+                    <button class="btn" style="background: #8b5cf6; color: white; margin-top: 1rem;" onclick="startTest(${test.duration})">Start Test</button>
+                </div>
+            `).join('');
+            } catch(error) {
+                console.error('Error rendering tests:', error);
+            }
+        }
+
+        function renderEnrolledBatches() {
+            try {
+                const container = document.getElementById('enrolledBatches');
+                const enrolledIds = getEnrolledCourseIds();
+                
+                if (enrolledIds.length === 0) {
+                    container.innerHTML = '<p style="color: #6b7280;">No courses enrolled yet. <a href="#" onclick="showPage(\'batches\')" style="color: #2563eb;">Explore courses</a></p>';
+                    return;
+                }
+                
+                const enrolledCourses = batches.filter(batch => enrolledIds.includes(batch.id));
+                container.innerHTML = enrolledCourses.map(batch => `
+                    <div class="list-item" style="transition: all 0.3s;" onmouseover="this.style.boxShadow='0 4px 12px rgba(0,0,0,0.15)'" onmouseout="this.style.boxShadow='0 2px 4px rgba(0,0,0,0.1)'">
+                        <div style="display: flex; justify-content: space-between; align-items: start;">
+                            <div style="flex: 1; cursor: pointer;" onclick="openCourse(${batch.id})">
+                                <span style="display: inline-block; background: #10b981; color: white; padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.75rem; margin-bottom: 0.5rem;">${batch.category}</span>
+                                <h3 style="margin-top: 0.5rem;">${batch.name}</h3>
+                                <p>👨‍🏫 Teacher: ${batch.teacher}</p>
+                                <p>⏱️ Duration: ${batch.duration}</p>
+                                <div style="width: 100%; height: 6px; background: #e5e7eb; border-radius: 3px; margin: 0.5rem 0;">
+                                    <div style="width: ${batch.progress}%; height: 100%; background: #2563eb; border-radius: 3px;"></div>
+                                </div>
+                                <p style="color: #6b7280; font-size: 0.9rem;">Progress: ${batch.progress}%</p>
+                                <p style="color: #10b981; font-weight: 600;">✓ Enrolled</p>
+                            </div>
+                            <button class="btn" style="background: #ef4444; color: white; margin-left: 1rem; white-space: nowrap;" onclick="unenrollCourse(${batch.id}, '${batch.name}')">Unenroll</button>
+                        </div>
+                    </div>
+                `).join('');
+            } catch(error) {
+                console.error('Error rendering enrolled batches:', error);
+            }
+        }
+
+        function getEnrolledCourseIds() {
+            try {
+                const enrolledCourses = localStorage.getItem('enrolledCourses');
+                return enrolledCourses ? JSON.parse(enrolledCourses) : [];
+            } catch(error) {
+                console.error('Error getting enrolled courses:', error);
+                return [];
+            }
+        }
+
+        function enrollCourse(courseId, courseName) {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                alert('Please login to enroll in courses');
+                showPage('login');
+                return;
+            }
+
+            const user = JSON.parse(localStorage.getItem('user'));
+            if (!user || !user.id) {
+                alert('User information not found. Please login again.');
+                showPage('login');
+                return;
+            }
+
+            const enrolledIds = getEnrolledCourseIds();
+            
+            if (enrolledIds.includes(courseId)) {
+                alert('You are already enrolled in this course!');
+                return;
+            }
+
+            // Add course to local storage immediately
+            enrolledIds.push(courseId);
+            localStorage.setItem('enrolledCourses', JSON.stringify(enrolledIds));
+            
+            // Render updated enrolled batches
+            renderEnrolledBatches();
+            renderBatches();
+            
+            // Update dashboard stats
+            updateDashboardStats();
+            
+            alert(`Successfully enrolled in "${courseName}"!`);
+
+            // Try to sync enroll with backend (non-blocking)
+            fetch('http://localhost:5000/api/batches/enroll', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    userId: user.id,
+                    batchId: courseId
+                })
+            })
+            .catch(err => {
+                console.warn('Backend sync error (local enroll still successful):', err);
+            });
+        }
+
+        function unenrollCourse(courseId, courseName) {
+            const confirmUnenroll = confirm(`Are you sure you want to unenroll from "${courseName}"?`);
+            if (!confirmUnenroll) return;
+
+            const user = JSON.parse(localStorage.getItem('user'));
+            if (!user || !user.id) {
+                alert('User information not found. Please login again.');
+                return;
+            }
+
+            // Remove course from local storage first
+            let enrolledIds = getEnrolledCourseIds();
+            enrolledIds = enrolledIds.filter(id => id !== courseId);
+            localStorage.setItem('enrolledCourses', JSON.stringify(enrolledIds));
+            
+            // Render updated enrolled batches
+            renderEnrolledBatches();
+            renderBatches();
+            
+            // Update dashboard stats
+            updateDashboardStats();
+            
+            alert(`Successfully unenrolled from "${courseName}"!`);
+
+            // Try to sync unenroll with backend (non-blocking)
+            fetch('http://localhost:5000/api/batches/unenroll', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    userId: user.id,
+                    batchId: courseId
+                })
+            })
+            .catch(err => {
+                console.warn('Backend sync error (local unenroll still successful):', err);
+            });
+        }
+        
+
+        function startTest(duration) {
+            document.getElementById('testList').classList.add('hidden');
+            document.getElementById('testInterface').classList.remove('hidden');
+            
+            timeLeft = duration * 60;
+            updateTimer();
+            timerInterval = setInterval(updateTimer, 1000);
+        }
+
+        function updateTimer() {
+            if (timeLeft <= 0) {
+                clearInterval(timerInterval);
+                submitTest();
+                return;
+            }
+            
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            document.getElementById('timer').textContent = 
+                `${minutes}:${seconds.toString().padStart(2, '0')}`;
+            timeLeft--;
+        }
+
+        function submitTest() {
+            clearInterval(timerInterval);
+            document.getElementById('testList').classList.remove('hidden');
+            document.getElementById('testInterface').classList.add('hidden');
+            alert('Test submitted successfully!');
+        }
+
+        function renderLectures() {
+            try {
+                renderLiveLectures();
+                renderRecordedLectures();
+            } catch(error) {
+                console.error('Error rendering lectures:', error);
+            }
+        }
+
+        function renderLiveLectures() {
+            try {
+                const container = document.getElementById('liveLectures');
+                if (!container) {
+                    console.warn('liveLectures container not found');
+                    return;
+                }
+                container.innerHTML = liveLectures.map(lecture => `
+                <div class="lecture-card live">
+                    <div class="lecture-header">
+                        <h3 class="lecture-title">${lecture.title}<span class="live-badge">🔴 LIVE NOW</span></h3>
+                    </div>
+                    <div class="lecture-info">
+                        <div class="lecture-info-item">👨‍🏫 Instructor: ${lecture.instructor}</div>
+                        <div class="lecture-info-item">📚 Subject: ${lecture.subject}</div>
+                        <div class="lecture-info-item">🕐 Start Time: ${lecture.startTime}</div>
+                        <div class="lecture-info-item">⏱️ Duration: ${lecture.duration}</div>
+                        <div class="lecture-info-item">👥 Students: ${lecture.students}</div>
+                    </div>
+                    <div class="lecture-actions">
+                        <button class="btn" style="background: #ef4444; color: white; flex: 1;">Join Now 🎥</button>
+                        <button class="btn" style="background: #10b981; color: white; flex: 1;">Add to Reminder 🔔</button>
+                    </div>
+                </div>
+            `).join('');
+            } catch(error) {
+                console.error('Error rendering live lectures:', error);
+            }
+        }
+
+        function renderRecordedLectures() {
+            try {
+                const container = document.getElementById('recordedLectures');
+                if (!container) {
+                    console.warn('recordedLectures container not found');
+                    return;
+                }
+                container.innerHTML = recordedLectures.map(lecture => `
+                <div class="lecture-card">
+                    <div class="lecture-header">
+                        <h3 class="lecture-title">📹 ${lecture.title}</h3>
+                    </div>
+                    <div class="lecture-info">
+                        <div class="lecture-info-item">👨‍🏫 Instructor: ${lecture.instructor}</div>
+                        <div class="lecture-info-item">📚 Subject: ${lecture.subject}</div>
+                        <div class="lecture-info-item">📅 Uploaded: ${lecture.uploadDate}</div>
+                        <div class="lecture-info-item">⏱️ Duration: ${lecture.duration}</div>
+                        <div class="lecture-info-item">👁️ Views: ${lecture.views}</div>
+                    </div>
+                    <div class="lecture-actions">
+                        <button class="btn" style="background: #2563eb; color: white; flex: 1;">Watch Now ▶️</button>
+                        <button class="btn" style="background: #8b5cf6; color: white; flex: 1;">Download 📥</button>
+                        <button class="btn" style="background: #6b7280; color: white; flex: 1;">Notes 📝</button>
+                    </div>
+                </div>
+            `).join('');
+            } catch(error) {
+                console.error('Error rendering recorded lectures:', error);
+            }
+        }
+
+        function switchLectureTab(tab) {
+            try {
+                // Hide all tab contents
+                document.getElementById('liveLectures').classList.remove('active');
+                document.getElementById('recordedLectures').classList.remove('active');
+            
+            // Remove active class from all tabs
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            
+                // Show selected tab
+                if (tab === 'live') {
+                    document.getElementById('liveLectures').classList.add('active');
+                    document.querySelectorAll('.tab')[0].classList.add('active');
+                } else {
+                    document.getElementById('recordedLectures').classList.add('active');
+                    document.querySelectorAll('.tab')[1].classList.add('active');
+                }
+            } catch(error) {
+                console.error('Error switching lecture tab:', error);
+            }
+        }
+
+        // Course Details Functions
+        let currentCourseId = null;
+
+        function openCourse(courseId) {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                alert('Please login to view course details');
+                showPage('login');
+                return;
+            }
+
+            const enrolledIds = getEnrolledCourseIds();
+            if (!enrolledIds.includes(courseId)) {
+                alert('Please enroll in this course first');
+                return;
+            }
+
+            currentCourseId = courseId;
+            const course = batches.find(b => b.id === courseId);
+            
+            document.getElementById('courseTitle').textContent = course.name;
+            updateCourseProgress(course);
+            renderCourseMaterials(courseId);
+            showPage('courseDetails');
+        }
+
+        function updateCourseProgress(course) {
+            const progress = course.progress || 0;
+            document.getElementById('progressBar').style.width = progress + '%';
+            document.getElementById('progressPercent').textContent = progress + '%';
+        }
+
+        function renderCourseMaterials(courseId) {
+            const materials = courseMaterials[courseId];
+            if (!materials) return;
+
+            renderCourseLiveLectures(materials.liveLectures);
+            renderCourseRecordedLectures(materials.recordedLectures);
+            renderCourseNotes(materials.notes);
+            renderCourseTests(materials.tests);
+            renderCourseCertificate(courseId);
+        }
+
+        function renderCourseLiveLectures(lectures) {
+            const container = document.getElementById('courseLiveLectures');
+            if (lectures.length === 0) {
+                container.innerHTML = '<p style="color: #6b7280;">No live lectures scheduled at the moment.</p>';
+                return;
+            }
+
+            container.innerHTML = lectures.map(lecture => `
+                <div class="lecture-card live">
+                    <div class="lecture-header">
+                        <h3 class="lecture-title">${lecture.title}<span class="live-badge">🔴 LIVE NOW</span></h3>
+                    </div>
+                    <div class="lecture-info">
+                        <div class="lecture-info-item">👨‍🏫 Instructor: ${lecture.instructor}</div>
+                        <div class="lecture-info-item">📅 Date: ${lecture.date}</div>
+                        <div class="lecture-info-item">🕐 Time: ${lecture.startTime}</div>
+                        <div class="lecture-info-item">⏱️ Duration: ${lecture.duration}</div>
+                        <div class="lecture-info-item">👥 Attending: ${lecture.students}</div>
+                    </div>
+                    <div class="lecture-actions">
+                        <button class="btn" style="background: #ef4444; color: white; flex: 1;">Join Live Class 🎥</button>
+                        <button class="btn" style="background: #10b981; color: white; flex: 1;">Add Reminder 🔔</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function renderCourseRecordedLectures(lectures) {
+            const container = document.getElementById('courseRecordedLectures');
+            if (lectures.length === 0) {
+                container.innerHTML = '<p style="color: #6b7280;">No recorded lectures available yet.</p>';
+                return;
+            }
+
+            container.innerHTML = lectures.map(lecture => `
+                <div class="lecture-card">
+                    <div class="lecture-header">
+                        <h3 class="lecture-title">📹 ${lecture.title}</h3>
+                    </div>
+                    <div class="lecture-info">
+                        <div class="lecture-info-item">👨‍🏫 Instructor: ${lecture.instructor}</div>
+                        <div class="lecture-info-item">📅 Uploaded: ${lecture.uploadDate}</div>
+                        <div class="lecture-info-item">⏱️ Duration: ${lecture.duration}</div>
+                        <div class="lecture-info-item">👁️ Views: ${lecture.views}</div>
+                    </div>
+                    <div class="lecture-actions">
+                        <button class="btn" style="background: #2563eb; color: white; flex: 1;">Watch Now ▶️</button>
+                        <button class="btn" style="background: #8b5cf6; color: white; flex: 1;">Download 📥</button>
+                        <button class="btn" style="background: #6b7280; color: white; flex: 1;">Notes 📝</button>
+                    </div>
+                </div>                // models/Enrollment.js
+                const mongoose = require("mongoose");
+                
+                const enrollmentSchema = new mongoose.Schema(
+                  {
+                    userId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+                    batchId: { type: mongoose.Schema.Types.ObjectId, ref: "Batch", required: true },
+                    enrolledAt: { type: Date, default: Date.now },
+                    status: { 
+                      type: String, 
+                      enum: ["active", "completed", "dropped"],
+                      default: "active" 
+                    },
+                    progress: { type: Number, default: 0 }, // percentage
+                    grade: String
+                  },
+                  { timestamps: true }
+                );
+                
+                // Prevent duplicate enrollments
+                enrollmentSchema.index({ userId: 1, batchId: 1 }, { unique: true });
+                
+                module.exports = mongoose.model("Enrollment", enrollmentSchema);                // models/Enrollment.js
+                const mongoose = require("mongoose");
+                
+                const enrollmentSchema = new mongoose.Schema(
+                  {
+                    userId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+                    batchId: { type: mongoose.Schema.Types.ObjectId, ref: "Batch", required: true },
+                    enrolledAt: { type: Date, default: Date.now },
+                    status: { 
+                      type: String, 
+                      enum: ["active", "completed", "dropped"],
+                      default: "active" 
+                    },
+                    progress: { type: Number, default: 0 }, // percentage
+                    grade: String
+                  },
+                  { timestamps: true }
+                );
+                
+                // Prevent duplicate enrollments
+                enrollmentSchema.index({ userId: 1, batchId: 1 }, { unique: true });
+                
+                module.exports = mongoose.model("Enrollment", enrollmentSchema);                // models/Enrollment.js
+                const mongoose = require("mongoose");
+                
+                const enrollmentSchema = new mongoose.Schema(
+                  {
+                    userId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+                    batchId: { type: mongoose.Schema.Types.ObjectId, ref: "Batch", required: true },
+                    enrolledAt: { type: Date, default: Date.now },
+                    status: { 
+                      type: String, 
+                      enum: ["active", "completed", "dropped"],
+                      default: "active" 
+                    },
+                    progress: { type: Number, default: 0 }, // percentage
+                    grade: String
+                  },
+                  { timestamps: true }
+                );
+                
+                // Prevent duplicate enrollments
+                enrollmentSchema.index({ userId: 1, batchId: 1 }, { unique: true });
+                
+                module.exports = mongoose.model("Enrollment", enrollmentSchema);
+            `).join('');
+        }
+
+        function renderCourseNotes(notes) {
+            const container = document.getElementById('courseNotes');
+            if (notes.length === 0) {
+                container.innerHTML = '<p style="color: #6b7280;">No notes available yet.</p>';
+                return;
+            }
+
+            container.innerHTML = notes.map(note => `
+                <div class="list-item">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <h3>📄 ${note.topic}</h3>
+                            <p style="font-size: 0.9rem; color: #9ca3af;">Uploaded: ${note.uploadDate}</p>
+                        </div>
+                        <button class="btn btn-primary">Download PDF</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function renderCourseTests(tests) {
+            const container = document.getElementById('courseTests');
+            if (tests.length === 0) {
+                container.innerHTML = '<p style="color: #6b7280;">No tests available yet.</p>';
+                return;
+            }
+
+            container.innerHTML = tests.map(test => `
+                <div class="list-item">
+                    <h3>📋 ${test.title}</h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; margin: 1rem 0;">
+                        <p>❓ Questions: ${test.questions}</p>
+                        <p>⏱️ Duration: ${test.duration} minutes</p>
+                        <p>✅ Passing Score: ${test.passingScore}%</p>
+                        ${test.attempts ? `<p>📊 Attempts: ${test.attempts}</p>` : ''}
+                    </div>
+                    <button class="btn btn-success" style="margin-top: 1rem;" onclick="startCourseTest(${test.id})">Start Test</button>
+                </div>
+            `).join('');
+        }
+
+        function renderCourseCertificate(courseId) {
+            const container = document.getElementById('courseCertificate');
+            const course = batches.find(b => b.id === courseId);
+
+            if (!course.completed) {
+                container.innerHTML = `
+                    <div style="background: white; padding: 3rem; border-radius: 8px; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                        <h3 style="color: #6b7280; margin-bottom: 1rem;">Certificate Not Yet Available</h3>
+                        <p style="color: #9ca3af; margin-bottom: 1.5rem;">Complete all course requirements to earn your certificate</p>
+                        <div style="width: 100%; height: 4px; background: #e5e7eb; border-radius: 2px; margin: 2rem 0;">
+                            <div style="width: ${course.progress}%; height: 100%; background: #10b981;"></div>
+                        </div>
+                        <p style="color: #6b7280; margin-top: 1rem;">Course Progress: ${course.progress}%</p>
+                    </div>
+                `;
+            } else {
+                container.innerHTML = `
+                    <div style="background: linear-gradient(135deg, #fbbf24, #f59e0b); padding: 3rem; border-radius: 8px; text-align: center; color: white; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">
+                        <div style="font-size: 4rem; margin-bottom: 1rem;">🏆</div>
+                        <h2 style="margin-bottom: 0.5rem;">Congratulations!</h2>
+                        <p style="font-size: 1.1rem; margin-bottom: 2rem;">You have successfully completed</p>
+                        <h3 style="background: rgba(255,255,255,0.2); padding: 1rem; border-radius: 8px; margin: 1.5rem 0;">${course.name}</h3>
+                        <div style="margin: 2rem 0; padding: 2rem; background: rgba(255,255,255,0.1); border-radius: 8px;">
+                            <p style="font-size: 0.9rem; margin-bottom: 0.5rem;">Certificate ID: CERT-${course.id}-2025</p>
+                            <p style="font-size: 0.9rem;">Issued: ${new Date().toLocaleDateString()}</p>
+                        </div>
+                        <button class="btn" style="background: white; color: #f59e0b; margin-top: 2rem; font-weight: bold;" onclick="downloadCertificate(${course.id})">Download Certificate 📥</button>
+                        <button class="btn" style="background: rgba(255,255,255,0.3); color: white; margin-left: 1rem; margin-top: 2rem;" onclick="shareCertificate(${course.id})">Share Certificate 📤</button>
+                    </div>
+                `;
+            }
+        }
+
+        function switchCourseTab(tab) {
+            try {
+                // Hide all tab contents
+                document.getElementById('courseLiveLectures').classList.remove('active');
+                document.getElementById('courseRecordedLectures').classList.remove('active');
+                document.getElementById('courseNotes').classList.remove('active');
+                document.getElementById('courseTests').classList.remove('active');
+                document.getElementById('courseCertificate').classList.remove('active');
+
+                // Remove active class from all tabs
+                document.querySelectorAll('#courseDetails .tab').forEach(t => t.classList.remove('active'));
+
+                // Show selected tab and mark tab as active
+                const tabMap = {
+                    'liveLectures': 0,
+                    'recordedLectures': 1,
+                    'notes': 2,
+                    'tests': 3,
+                    'certificate': 4
+                };
+
+                const tabIndex = tabMap[tab];
+                document.getElementById('course' + tab.charAt(0).toUpperCase() + tab.slice(1)).classList.add('active');
+                document.querySelectorAll('#courseDetails .tab')[tabIndex].classList.add('active');
+            } catch(error) {
+                console.error('Error switching course tab:', error);
+            }
+        }
+
+        function startCourseTest(testId) {
+            alert('Test ' + testId + ' started! (Feature coming soon)');
+        }
+
+        function downloadCertificate(courseId) {
+            const course = batches.find(b => b.id === courseId);
+            alert('Certificate for ' + course.name + ' is being downloaded...');
+        }
+
+        function shareCertificate(courseId) {
+            const course = batches.find(b => b.id === courseId);
+            const text = `I just completed the course "${course.name}" on EduLearn Platform! 🎓`;
+            alert('Share this:\n' + text);
+        }
+    </script>
+</body>
+</html>
